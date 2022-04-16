@@ -9,6 +9,20 @@ import time
 import os
 
 def ReadAccl():
+	# BMX055 Accl address, 0x1e
+	# Select PMU_Range register, 0x0F(15)
+	#		0x03(03)	Range = +/- 2g
+	bus.write_byte_data(AcclAddress, 0x0F, 0x03)
+	# BMX055 Accl address, 0x18(24)
+	# Select PMU_BW register, 0x10(16)
+	#		0x08(08)	Bandwidth = 7.81 Hz
+	bus.write_byte_data(AcclAddress, 0x10, 0x08)
+	# BMX055 Accl address, 0x18(24)
+	# Select PMU_LPW register, 0x11(17)
+	#		0x00(00)	Normal mode, Sleep duration = 0.5ms
+	bus.write_byte_data(AcclAddress, 0x11, 0x00)
+	time.sleep(0.5)
+
 	# Read data back from 0x02(02), 6 bytes
 	# xAccl LSB, xAccl MSB, yAccl LSB, yAccl MSB, zAccl LSB, zAccl MSB
 	data = bus.read_i2c_block_data(AcclAddress, 0x02, 6)
@@ -26,6 +40,21 @@ def ReadAccl():
 	return xAccl,yAccl,zAccl
 
 def ReadGyro():
+	#------------------------------------------------------
+	# BMX055 Gyro address, 0x53
+	# Select Range register, 0x0F(15)
+	#		0x04(04)	Full scale = +/- 125 degree/s
+	bus.write_byte_data(GyroAddress, 0x0F, 0x04)
+	# BMX055 Gyro address, 0x68(104)
+	# Select Bandwidth register, 0x10(16)
+	#		0x07(07)	ODR = 100 Hz
+	bus.write_byte_data(GyroAddress, 0x10, 0x07)
+	# BMX055 Gyro address, 0x68(104)
+	# Select LPM1 register, 0x11(17)
+	#		0x00(00)	Normal mode, Sleep duration = 2ms
+	bus.write_byte_data(GyroAddress, 0x11, 0x00)
+	time.sleep(0.5)
+
 	# Read data back from 0x02(02), 6 bytes
 	# xGyro LSB, xGyro MSB, yGyro LSB, yGyro MSB, zGyro LSB, zGyro MSB
 	data = bus.read_i2c_block_data(0x68, 0x02, 6)
@@ -43,59 +72,6 @@ def ReadGyro():
 	return xGyro,yGyro,zGyro
 
 def ReadMagnito():
-	# Read data back from 0x42(66), 6 bytes
-	# X-Axis LSB, X-Axis MSB, Y-Axis LSB, Y-Axis MSB, Z-Axis LSB, Z-Axis MSB
-	data = bus.read_i2c_block_data(MagnitoAddress, 0x42, 6)
-	# Convert the data
-	xMag = ((data[1] * 256) + (data[0] & 0xF8)) / 8
-	if xMag > 4095 :
-		xMag -= 8192
-	yMag = ((data[3] * 256) + (data[2] & 0xF8)) / 8
-	if yMag > 4095 :
-		yMag -= 8192
-	zMag = ((data[5] * 256) + (data[4] & 0xFE)) / 2
-	if zMag > 16383 :
-		zMag -= 32768
-
-	return xMag,yMag,zMag
-
-
-#Define Address bus
-AcclAddress = 0x1e
-GyroAddress = 0x53
-MagnitoAddress = 0x68
-bus = smbus.SMBus(1)
-
-if __name__ == "__main__":
-	# BMX055 Accl address, 0x1e
-	# Select PMU_Range register, 0x0F(15)
-	#		0x03(03)	Range = +/- 2g
-	bus.write_byte_data(AcclAddress, 0x0F, 0x03)
-	# BMX055 Accl address, 0x18(24)
-	# Select PMU_BW register, 0x10(16)
-	#		0x08(08)	Bandwidth = 7.81 Hz
-	bus.write_byte_data(AcclAddress, 0x10, 0x08)
-	# BMX055 Accl address, 0x18(24)
-	# Select PMU_LPW register, 0x11(17)
-	#		0x00(00)	Normal mode, Sleep duration = 0.5ms
-	bus.write_byte_data(AcclAddress, 0x11, 0x00)
-	time.sleep(0.5)
-
-	#------------------------------------------------------
-	# BMX055 Gyro address, 0x53
-	# Select Range register, 0x0F(15)
-	#		0x04(04)	Full scale = +/- 125 degree/s
-	bus.write_byte_data(GyroAddress, 0x0F, 0x04)
-	# BMX055 Gyro address, 0x68(104)
-	# Select Bandwidth register, 0x10(16)
-	#		0x07(07)	ODR = 100 Hz
-	bus.write_byte_data(GyroAddress, 0x10, 0x07)
-	# BMX055 Gyro address, 0x68(104)
-	# Select LPM1 register, 0x11(17)
-	#		0x00(00)	Normal mode, Sleep duration = 2ms
-	bus.write_byte_data(GyroAddress, 0x11, 0x00)
-	time.sleep(0.5)
-
 	#-----------------------------------------------------
 	# BMX055 Mag address, 0x68
 	# Select Mag register, 0x4B(75)
@@ -120,6 +96,34 @@ if __name__ == "__main__":
 	time.sleep(0.5)
 
 	#ReadData
+	# Read data back from 0x42(66), 6 bytes
+	# X-Axis LSB, X-Axis MSB, Y-Axis LSB, Y-Axis MSB, Z-Axis LSB, Z-Axis MSB
+	data = bus.read_i2c_block_data(MagnitoAddress, 0x42, 6)
+	# Convert the data
+	xMag = ((data[1] * 256) + (data[0] & 0xF8)) / 8
+	if xMag > 4095 :
+		xMag -= 8192
+	yMag = ((data[3] * 256) + (data[2] & 0xF8)) / 8
+	if yMag > 4095 :
+		yMag -= 8192
+	zMag = ((data[5] * 256) + (data[4] & 0xFE)) / 2
+	if zMag > 16383 :
+		zMag -= 32768
+
+	return xMag,yMag,zMag
+
+
+#Define Address bus
+AcclAddress = 0x1e
+GyroAddress = 0x53
+MagnitoAddress = 0x68
+bus = smbus.SMBus(1)
+
+if __name__ == "__main__":
+	
+	
+
+	
 
 	try:
 		while 1:
