@@ -21,7 +21,7 @@ def ReadAccl():
 	# Select PMU_LPW register, 0x11(17)
 	#		0x00(00)	Normal mode, Sleep duration = 0.5ms
 	bus.write_byte_data(AcclAddress, 0x11, 0x00)
-	time.sleep(0.5)
+	time.sleep(0.05)
 
 	# Read data back from 0x02(02), 6 bytes
 	# xAccl LSB, xAccl MSB, yAccl LSB, yAccl MSB, zAccl LSB, zAccl MSB
@@ -53,7 +53,7 @@ def ReadGyro():
 	# Select LPM1 register, 0x11(17)
 	#		0x00(00)	Normal mode, Sleep duration = 2ms
 	bus.write_byte_data(GyroAddress, 0x11, 0x00)
-	time.sleep(0.5)
+	time.sleep(0.05)
 
 	# Read data back from 0x02(02), 6 bytes
 	# xGyro LSB, xGyro MSB, yGyro LSB, yGyro MSB, zGyro LSB, zGyro MSB
@@ -93,7 +93,7 @@ def ReadMagnito():
 	# Select Mag register, 0x52(82)
 	#		0x0F(15)	No. of Repetitions for Z-Axis = 15
 	bus.write_byte_data(MagnitoAddress, 0x52, 0x0F)
-	time.sleep(0.5)
+	time.sleep(0.05)
 
 	#ReadData
 	# Read data back from 0x42(66), 6 bytes
@@ -140,7 +140,7 @@ if __name__ == "__main__":
 			print("Magnetic field in X-Axis : %d" %_Magnito[0])
 			print("Magnetic field in Y-Axis : %d" %_Magnito[1])
 			print("Magnetic field in Z-Axis : %d" %_Magnito[2])
-			time.sleep(0.5)
+			time.sleep(0.1)
 			os.system("clear")
 	except KeyboardInterrupt:
 		print("Over!")
