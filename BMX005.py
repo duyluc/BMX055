@@ -8,18 +8,6 @@ import smbus
 import time
 import os
 
-# Output data to screen
-print("Acceleration in X-Axis : %d" %xAccl)
-print("Acceleration in Y-Axis : %d" %yAccl)
-print("Acceleration in Z-Axis : %d" %zAccl)
-print("X-Axis of Rotation : %d" %xGyro)
-print("Y-Axis of Rotation : %d" %yGyro)
-print("Z-Axis of Rotation : %d" %zGyro)
-print("Magnetic field in X-Axis : %d" %xMag)
-print("Magnetic field in Y-Axis : %d" %yMag)
-print("Magnetic field in Z-Axis : %d" %zMag)
-
-
 def ReadAccl():
 	# Read data back from 0x02(02), 6 bytes
 	# xAccl LSB, xAccl MSB, yAccl LSB, yAccl MSB, zAccl LSB, zAccl MSB
