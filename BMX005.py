@@ -132,8 +132,8 @@ def ReadMagnito():
 
 #Define Address bus
 AcclAddress = 0x53
-GyroAddress = 0x1e
-MagnitoAddress = 0x68
+GyroAddress = 0x68
+MagnitoAddress = 0x1e
 bus = smbus.SMBus(1)
 
 if __name__ == "__main__":
