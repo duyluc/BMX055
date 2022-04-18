@@ -60,11 +60,11 @@ def ReadGyro():
 	# Select LPM1 register, 0x11(17)
 	#		0x00(00)	Normal mode, Sleep duration = 2ms
 	bus.write_byte_data(GyroAddress, 0x11, 0x00)
-	time.sleep(0.1)
+	time.sleep(0.05)
 
 	# Read data back from 0x02(02), 6 bytes
 	# xGyro LSB, xGyro MSB, yGyro LSB, yGyro MSB, zGyro LSB, zGyro MSB
-	data = bus.read_i2c_block_data(0x68, 0x02, 6)
+	data = bus.read_i2c_block_data(GyroAddress, 0x02, 6)
 	# Convert the data
 	xGyro = data[1] * 256 + data[0]
 	if xGyro > 32767 :
@@ -76,9 +76,9 @@ def ReadGyro():
 	if zGyro > 32767 :
 		zGyro -= 65536
 
-	print("Acceleration in X-Axis : %d" %xGyro)
-	print("Acceleration in Y-Axis : %d" %yGyro)
-	print("Acceleration in Z-Axis : %d" %zGyro)
+	print("Gyro in X-Axis : %d" %xGyro)
+	print("Gyro in Y-Axis : %d" %yGyro)
+	print("Gyro in Z-Axis : %d" %zGyro)
 
 	
 
@@ -106,7 +106,7 @@ def ReadMagnito():
 	# Select Mag register, 0x52(82)
 	#		0x0F(15)	No. of Repetitions for Z-Axis = 15
 	bus.write_byte_data(MagnitoAddress, 0x52, 0x0F)
-	time.sleep(0.1)
+	time.sleep(0.05)
 
 	#ReadData
 	# Read data back from 0x42(66), 6 bytes
@@ -123,16 +123,16 @@ def ReadMagnito():
 	if zMag > 16383 :
 		zMag -= 32768
 
-	print("Acceleration in X-Axis : %d" %xMag)
-	print("Acceleration in Y-Axis : %d" %yMag)
-	print("Acceleration in Z-Axis : %d" %zMag)
+	print("Magnito in X-Axis : %d" %xMag)
+	print("Magnito in Y-Axis : %d" %yMag)
+	print("Magnito in Z-Axis : %d" %zMag)
 	time.sleep(0.1)
 	return xMag,yMag,zMag
 
 
 #Define Address bus
-AcclAddress = 0x1e
-GyroAddress = 0x53
+AcclAddress = 0x53
+GyroAddress = 0x1e
 MagnitoAddress = 0x68
 bus = smbus.SMBus(1)
 
