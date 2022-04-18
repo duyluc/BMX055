@@ -3,7 +3,7 @@
 # BMX055
 # This code is designed to work with the BMX055_I2CS I2C Mini Module available from ControlEverything.com.
 # https://www.controleverything.com/products
-#0x11
+#0x02
 import smbus
 import time
 import os
@@ -22,7 +22,7 @@ def ReadAccl():
 	# Select PMU_LPW register, 0x11(17)
 	#		0x00(00)	Normal mode, Sleep duration = 0.5ms
 	bus.write_byte_data(AcclAddress, 0x11, 0x00)
-	time.sleep(0.05)
+	time.sleep(0.1)
 
 	# Read data back from 0x02(02), 6 bytes
 	# xAccl LSB, xAccl MSB, yAccl LSB, yAccl MSB, zAccl LSB, zAccl MSB
@@ -58,7 +58,7 @@ def ReadGyro():
 	# Select LPM1 register, 0x11(17)
 	#		0x00(00)	Normal mode, Sleep duration = 2ms
 	bus.write_byte_data(GyroAddress, 0x11, 0x00)
-	time.sleep(0.05)
+	time.sleep(0.1)
 
 	# Read data back from 0x02(02), 6 bytes
 	# xGyro LSB, xGyro MSB, yGyro LSB, yGyro MSB, zGyro LSB, zGyro MSB
@@ -104,7 +104,7 @@ def ReadMagnito():
 	# Select Mag register, 0x52(82)
 	#		0x0F(15)	No. of Repetitions for Z-Axis = 15
 	bus.write_byte_data(MagnitoAddress, 0x52, 0x0F)
-	time.sleep(0.05)
+	time.sleep(0.1)
 
 	#ReadData
 	# Read data back from 0x42(66), 6 bytes
@@ -124,7 +124,7 @@ def ReadMagnito():
 	print("Acceleration in X-Axis : %d" %xMag)
 	print("Acceleration in Y-Axis : %d" %yMag)
 	print("Acceleration in Z-Axis : %d" %zMag)
-
+	time.sleep(0.1)
 	return xMag,yMag,zMag
 
 
