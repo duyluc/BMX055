@@ -24,7 +24,7 @@ def ReadAccl():
 	# Select PMU_LPW register, 0x11(17)
 	#		0x00(00)	Normal mode, Sleep duration = 0.5ms
 	bus.write_byte_data(AcclAddress, 0x11, 0x00)
-	time.sleep(0.1)
+	time.sleep(0.05)
 
 	# Read data back from 0x02(02), 6 bytes
 	# xAccl LSB, xAccl MSB, yAccl LSB, yAccl MSB, zAccl LSB, zAccl MSB
