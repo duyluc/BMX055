@@ -3,12 +3,14 @@
 # BMX055
 # This code is designed to work with the BMX055_I2CS I2C Mini Module available from ControlEverything.com.
 # https://www.controleverything.com/products
-#0x02
+#0x03
 import smbus
 import time
 import os
 
 def ReadAccl():
+	global bus
+	bus = smbus.SMBus(1)
 	os.system("clear")
 	# BMX055 Accl address, 0x1e
 	# Select PMU_Range register, 0x0F(15)
