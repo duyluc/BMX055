@@ -3,12 +3,13 @@
 # BMX055
 # This code is designed to work with the BMX055_I2CS I2C Mini Module available from ControlEverything.com.
 # https://www.controleverything.com/products
-#update
+#0x11
 import smbus
 import time
 import os
 
 def ReadAccl():
+	os.system("clear")
 	# BMX055 Accl address, 0x1e
 	# Select PMU_Range register, 0x0F(15)
 	#		0x03(03)	Range = +/- 2g
@@ -36,6 +37,10 @@ def ReadAccl():
 	zAccl = ((data[5] * 256) + (data[4] & 0xF0)) / 16
 	if zAccl > 2047 :
 		zAccl -= 4096
+
+	print("Acceleration in X-Axis : %d" %xAccl)
+	print("Acceleration in Y-Axis : %d" %yAccl)
+	print("Acceleration in Z-Axis : %d" %zAccl)
 
 	return xAccl,yAccl,zAccl
 
@@ -68,6 +73,12 @@ def ReadGyro():
 	zGyro = data[5] * 256 + data[4]
 	if zGyro > 32767 :
 		zGyro -= 65536
+
+	print("Acceleration in X-Axis : %d" %xGyro)
+	print("Acceleration in Y-Axis : %d" %yGyro)
+	print("Acceleration in Z-Axis : %d" %zGyro)
+
+	
 
 	return xGyro,yGyro,zGyro
 
@@ -110,6 +121,10 @@ def ReadMagnito():
 	if zMag > 16383 :
 		zMag -= 32768
 
+	print("Acceleration in X-Axis : %d" %xMag)
+	print("Acceleration in Y-Axis : %d" %yMag)
+	print("Acceleration in Z-Axis : %d" %zMag)
+
 	return xMag,yMag,zMag
 
 
@@ -121,27 +136,12 @@ bus = smbus.SMBus(1)
 
 if __name__ == "__main__":
 	
-	
-
-	
-
 	try:
 		while 1:
 			_Accl = ReadAccl()
 			_Gyro = ReadGyro()
 			_Magnito = ReadMagnito()
-
-			print("Acceleration in X-Axis : %d" %_Accl[0])
-			print("Acceleration in Y-Axis : %d" %_Accl[1])
-			print("Acceleration in Z-Axis : %d" %_Accl[2])
-			print("X-Axis of Rotation : %d" %_Gyro[0])
-			print("Y-Axis of Rotation : %d" %_Gyro[1])
-			print("Z-Axis of Rotation : %d" %_Gyro[2])
-			print("Magnetic field in X-Axis : %d" %_Magnito[0])
-			print("Magnetic field in Y-Axis : %d" %_Magnito[1])
-			print("Magnetic field in Z-Axis : %d" %_Magnito[2])
-			time.sleep(0.1)
-			os.system("clear")
+			
 	except KeyboardInterrupt:
 		print("Over!")
 		pass
