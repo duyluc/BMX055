@@ -3,7 +3,7 @@
 # BMX055
 # This code is designed to work with the BMX055_I2CS I2C Mini Module available from ControlEverything.com.
 # https://www.controleverything.com/products
-#0x03
+#0x04
 import smbus
 import time
 import os
